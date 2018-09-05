@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Octo Stalker</string>
+    <string name="follows">follows</string>
+    <string name="loading">Loading..</string>
+    <string name="error_loading_users">Error loading users</string>
+    <string name="search">Search</string>
+    <string name="search_hint">type the name of user</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

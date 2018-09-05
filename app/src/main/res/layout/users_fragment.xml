@@ -1,8 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.UsersFragment"
-    android:id="@+id/rv_users"/>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="mainViewModel"
+            type="com.ricardocenteno.octostalker.viewmodel.UsersViewModel"/>
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <ProgressBar
+            android:id="@+id/progress_users"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:visibility="@{mainViewModel.peopleProgress}"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_user_selected"
+            app:visibility="@{mainViewModel.userLabel}">
+            <TextView
+                android:id="@+id/txt_user_selected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@{mainViewModel.userName}"
+                android:layout_marginLeft="@dimen/margin_big"
+                android:layout_marginStart="@dimen/margin_big"
+                app:visibility="@{mainViewModel.userLabel}" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/label_status"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_user_selected"
+            android:gravity="center"
+            android:text="@{mainViewModel.messageLabel}"
+            app:visibility="@{mainViewModel.peopleLabel}"/>
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rv_users"/>
+    </LinearLayout>
+
+</layout>

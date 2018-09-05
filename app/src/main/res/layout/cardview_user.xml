@@ -1,40 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/height_item_user">
-    <RelativeLayout
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="userViewModel"
+            type="com.ricardocenteno.octostalker.viewmodel.ItemUserViewModel"/>
+        <variable
+            name="callback"
+            type="com.ricardocenteno.octostalker.view.callback.UserClickCallback"/>
+    </data>
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/margin_normal"
-        android:layout_marginLeft="@dimen/margin_normal"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_image"
-            android:layout_width="@dimen/image_avatar"
-            android:layout_height="@dimen/image_avatar"
-            android:background="@color/gray"/>
-        <TextView
-            android:layout_width="wrap_content"
+        android:layout_height="@dimen/height_item_user"
+        android:onClick="@{userViewModel::onItemClick}">
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_normal"
             android:layout_marginLeft="@dimen/margin_normal"
-            android:layout_marginStart="@dimen/margin_normal"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/profile_image"
-            android:layout_toEndOf="@+id/profile_image"
-            android:text="Bypass member A"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:textColor="@color/white"
-            android:background="@drawable/badge"
-            android:text="1"/>
-
-    </RelativeLayout>
-
-
-</android.support.v7.widget.CardView>
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_profile"
+                android:layout_width="@dimen/image_avatar"
+                android:layout_height="@dimen/image_avatar"
+                tools:imageURL="@{userViewModel.imgProfile}"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_normal"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/img_profile"
+                android:layout_toEndOf="@+id/img_profile"
+                android:text="@{userViewModel.name}"
+                android:id="@+id/txt_username"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/white"
+                android:background="@drawable/badge"
+                android:text="@{userViewModel.followers}"
+                app:visibility="@{userViewModel.followersBadge}"
+                android:id="@+id/txt_followers"/>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</layout>
