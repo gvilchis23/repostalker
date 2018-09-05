@@ -77,8 +77,8 @@ public class UsersViewModel extends Observable {
                         peopleRecycler.set(View.GONE);
                     });
 
-            //compositeDisposable.add(disposable);
-            changePeopleDataSet(FakeRandomCompany.getUserList());
+            compositeDisposable.add(disposable);
+            //changePeopleDataSet(FakeRandomCompany.getUserList());
         }
     }
 
