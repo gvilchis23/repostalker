@@ -6,9 +6,6 @@
         <variable
             name="userViewModel"
             type="com.ricardocenteno.octostalker.viewmodel.ItemUserViewModel"/>
-        <variable
-            name="callback"
-            type="com.ricardocenteno.octostalker.view.callback.UserClickCallback"/>
     </data>
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"

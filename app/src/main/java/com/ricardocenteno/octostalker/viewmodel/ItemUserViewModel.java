@@ -1,19 +1,16 @@
 package com.ricardocenteno.octostalker.viewmodel;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableInt;
-import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import com.ricardocenteno.octostalker.OctoStalkerApplication;
 import com.ricardocenteno.octostalker.data.UserService;
 import com.ricardocenteno.octostalker.model.User;
-import com.ricardocenteno.octostalker.view.callback.UserClickCallback;
+import com.ricardocenteno.octostalker.view.ui.FollowsActivity;
 import com.squareup.picasso.Picasso;
-
 import java.util.HashMap;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -24,14 +21,11 @@ public class ItemUserViewModel extends BaseObservable {
     private Context context;
     public ObservableInt followersBadge;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private UserClickCallback callbacks;
     private HashMap<String,Integer> follows = new HashMap<>();
 
-    public ItemUserViewModel(User user, Context context, @Nullable UserClickCallback callback) {
+    public ItemUserViewModel(User user, Context context) {
         this.user = user;
         this.context = context;
-        this.callbacks = callback;
-
         followersBadge = new ObservableInt(View.GONE);
         /*if (user!=null && user.getFollowers()==null)
             getFollowers(user.getLogin());*/
@@ -61,8 +55,9 @@ public class ItemUserViewModel extends BaseObservable {
     }
 
     public void onItemClick(View view) {
-        if (callbacks!=null)
-            callbacks.onClick(user);
+        Intent intent = new Intent(context,FollowsActivity.class);
+        intent.putExtra("user",user.getLogin());
+        context.startActivity(intent);
     }
 
     public void setUser(User user) {

@@ -5,7 +5,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.arch.lifecycle.Lifecycle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,13 +17,12 @@ import android.view.ViewGroup;
 import com.ricardocenteno.octostalker.R;
 import com.ricardocenteno.octostalker.model.User;
 import com.ricardocenteno.octostalker.view.adapter.UserRVAdapter;
-import com.ricardocenteno.octostalker.view.callback.UserClickCallback;
 import com.ricardocenteno.octostalker.viewmodel.UsersViewModel;
 import java.util.Observable;
 import java.util.Observer;
 import com.ricardocenteno.octostalker.databinding.UsersFragmentBinding;
 
-public class UsersFragment extends Fragment implements Observer, UserClickCallback {
+public class UsersFragment extends Fragment implements Observer {
     public static final String TAG = "UsersFragment";
     private static final String ARG_PARAM_USER = "paramUser";
     private UsersViewModel mViewModel;
@@ -62,9 +60,7 @@ public class UsersFragment extends Fragment implements Observer, UserClickCallba
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //mViewModel = ViewModelProviders.of(this).get(UsersViewModel.class);
         initDataBinding();
-        //setSupportActionBar(usersFragmentBinding.toolbar);
         setupListPeopleView(usersFragmentBinding.rvUsers);
         setupObserver(mViewModel);
     }
@@ -73,7 +69,6 @@ public class UsersFragment extends Fragment implements Observer, UserClickCallba
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.main_menu, menu);
 
-        // Associate searchable configuration with the SearchView
         SearchManager searchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.action_search)
                 .getActionView();
@@ -81,18 +76,15 @@ public class UsersFragment extends Fragment implements Observer, UserClickCallba
                 .getSearchableInfo(getActivity().getComponentName()));
         searchView.setMaxWidth(Integer.MAX_VALUE);
 
-        // listening to search query text change
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                // filter recycler view when query submitted
                 adapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String query) {
-                // filter recycler view when text is changed
                 if(adapter !=null && query!=null)
                 adapter.getFilter().filter(query);
                 return false;
@@ -108,7 +100,7 @@ public class UsersFragment extends Fragment implements Observer, UserClickCallba
     }
 
     private void setupListPeopleView(RecyclerView rvUsers) {
-        UserRVAdapter adapter = new UserRVAdapter(this);
+        UserRVAdapter adapter = new UserRVAdapter();
         rvUsers.setAdapter(adapter);
         rvUsers.setLayoutManager(new LinearLayoutManager(getContext()));
     }
@@ -130,13 +122,6 @@ public class UsersFragment extends Fragment implements Observer, UserClickCallba
             adapter = (UserRVAdapter) usersFragmentBinding.rvUsers.getAdapter();
             mViewModel = (UsersViewModel) observable;
             adapter.setUsers(mViewModel.getPeopleList());
-        }
-    }
-
-    @Override
-    public void onClick(User user) {
-        if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
-            ((MainActivity) getActivity()).showUser(user);
         }
     }
 }
