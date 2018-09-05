@@ -27,8 +27,8 @@ public class ItemUserViewModel extends BaseObservable {
         this.user = user;
         this.context = context;
         followersBadge = new ObservableInt(View.GONE);
-        /*if (user!=null && user.getFollowers()==null)
-            getFollowers(user.getLogin());*/
+        if (user!=null && user.getFollowers()==null)
+            getFollowers(user.getLogin());
     }
 
     public String getFollowers() {

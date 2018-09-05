@@ -6,10 +6,10 @@ import android.content.Context;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 import com.ricardocenteno.octostalker.OctoStalkerApplication;
 import com.ricardocenteno.octostalker.R;
+import com.ricardocenteno.octostalker.data.FakeRandomCompany;
 import com.ricardocenteno.octostalker.data.UserService;
 import com.ricardocenteno.octostalker.model.User;
 import io.reactivex.disposables.CompositeDisposable;
@@ -49,9 +49,7 @@ public class UsersViewModel extends Observable {
             fetchPeopleList();
     }
 
-
-    //It is "public" to show an example of test
-    private void initializeViews() {
+    public void initializeViews() {
         peopleLabel.set(View.GONE);
         peopleRecycler.set(View.GONE);
         peopleProgress.set(View.VISIBLE);
@@ -60,25 +58,28 @@ public class UsersViewModel extends Observable {
     private void fetchPeopleList() {
 
         OctoStalkerApplication peopleApplication = OctoStalkerApplication.create(context);
-        UserService peopleService = peopleApplication.getPeopleService();
+        if(peopleApplication!=null) {
+            UserService peopleService = peopleApplication.getPeopleService();
 
 
-        Disposable disposable = peopleService.fetchUsers("bypasslane")
-                .subscribeOn(peopleApplication.subscribeScheduler())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(users -> {
-                    changePeopleDataSet(users);
-                    peopleProgress.set(View.GONE);
-                    peopleLabel.set(View.GONE);
-                    peopleRecycler.set(View.VISIBLE);
-                }, throwable -> {
-                    messageLabel.set(context.getString(R.string.error_loading_users));
-                    peopleProgress.set(View.GONE);
-                    peopleLabel.set(View.VISIBLE);
-                    peopleRecycler.set(View.GONE);
-                });
+            Disposable disposable = peopleService.fetchUsers("bypasslane")
+                    .subscribeOn(peopleApplication.subscribeScheduler())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(users -> {
+                        changePeopleDataSet(users);
+                        peopleProgress.set(View.GONE);
+                        peopleLabel.set(View.GONE);
+                        peopleRecycler.set(View.VISIBLE);
+                    }, throwable -> {
+                        messageLabel.set(context.getString(R.string.error_loading_users));
+                        peopleProgress.set(View.GONE);
+                        peopleLabel.set(View.VISIBLE);
+                        peopleRecycler.set(View.GONE);
+                    });
 
-        compositeDisposable.add(disposable);
+            //compositeDisposable.add(disposable);
+            changePeopleDataSet(FakeRandomCompany.getUserList());
+        }
     }
 
     private void fetchFollowers(String username) {
@@ -87,7 +88,6 @@ public class UsersViewModel extends Observable {
         Disposable disposable = peopleService.getFollowingUser(username)
                 .subscribeOn(peopleApplication.subscribeScheduler())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete(() -> Log.e("DEBUG", "Complete"))
                 .subscribe(users -> {
                     changePeopleDataSet(users);
                     peopleProgress.set(View.GONE);

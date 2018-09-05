@@ -23,7 +23,7 @@ public class ItemUserViewModelTest {
     public void shouldGetUsername() throws Exception {
         User user = new User();
         user.setLogin(USER_NAME_TEST);
-        ItemUserViewModel itemUserViewModel = new ItemUserViewModel(user, mockContext,null);
+        ItemUserViewModel itemUserViewModel = new ItemUserViewModel(user, mockContext);
         assertEquals(user.getLogin(), itemUserViewModel.getName());
     }
 
@@ -31,7 +31,7 @@ public class ItemUserViewModelTest {
     public void shouldGetFollowers() throws Exception {
         User user = new User();
         user.setFollowers(USER_FOLLOWERS_TEST);
-        ItemUserViewModel itemUserViewModel = new ItemUserViewModel(user, mockContext,null);
+        ItemUserViewModel itemUserViewModel = new ItemUserViewModel(user, mockContext);
         assertEquals(String.valueOf(user.getFollowers()), itemUserViewModel.getFollowers());
     }
 
@@ -39,7 +39,7 @@ public class ItemUserViewModelTest {
     public void shouldGetImageProfile() throws Exception {
         User user = new User();
         user.setAvatarUrl(USER_AVATAR_TEST);
-        ItemUserViewModel itemUserViewModel = new ItemUserViewModel(user, mockContext,null);
+        ItemUserViewModel itemUserViewModel = new ItemUserViewModel(user, mockContext);
         assertEquals(user.getAvatarUrl(), itemUserViewModel.getImgProfile());
     }
 }
