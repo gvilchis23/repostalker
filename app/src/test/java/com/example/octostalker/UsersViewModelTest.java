@@ -1,11 +1,11 @@
-package com.ricardocenteno.octostalker;
+package com.example.octostalker;
 
 import android.test.mock.MockContext;
 import android.view.View;
-import com.ricardocenteno.octostalker.data.FakeRandomCompany;
-import com.ricardocenteno.octostalker.data.UserService;
-import com.ricardocenteno.octostalker.model.User;
-import com.ricardocenteno.octostalker.viewmodel.UsersViewModel;
+import com.example.octostalker.data.MockCompany;
+import com.example.octostalker.data.UserService;
+import com.example.octostalker.model.User;
+import com.example.octostalker.viewmodel.UsersViewModel;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class UsersViewModelTest {
-    private static final String COMPANY = "facebook";
+    private static final String COMPANY = "bypass";
     @Mock
     private UserService userService;
     @Mock private MockContext mockContext;
@@ -32,8 +32,8 @@ public class UsersViewModelTest {
 
     @Test
     public void simulateGivenTheUserCallListFromApi() throws Exception {
-        List<User> users = FakeRandomCompany.getUserList();
-        doReturn(Observable.just(users)).when(userService).fetchUsers(COMPANY);
+        List<User> users = MockCompany.getUserList();
+        doReturn(Observable.just(users)).when(userService).getOrganizationMember(COMPANY);
     }
 
     @Test public void ensureTheViewsAreInitializedCorrectly() throws Exception {

@@ -1,14 +1,14 @@
-package com.ricardocenteno.octostalker.viewmodel;
+package com.example.octostalker.viewmodel;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableInt;
 import android.view.View;
-import com.ricardocenteno.octostalker.OctoStalkerApplication;
-import com.ricardocenteno.octostalker.data.UserService;
-import com.ricardocenteno.octostalker.model.User;
-import com.ricardocenteno.octostalker.view.ui.FollowsActivity;
+import com.example.octostalker.OctoStalkerApplication;
+import com.example.octostalker.data.UserService;
+import com.example.octostalker.model.User;
+import com.example.octostalker.view.activity.FollowersActivity;
 import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -16,14 +16,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
-public class ItemUserViewModel extends BaseObservable {
+public class UserItemViewModel extends BaseObservable {
     private User user;
     private Context context;
     public ObservableInt followersBadge;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private HashMap<String,Integer> follows = new HashMap<>();
 
-    public ItemUserViewModel(User user, Context context) {
+    public UserItemViewModel(User user, Context context) {
         this.user = user;
         this.context = context;
 
@@ -62,7 +62,7 @@ public class ItemUserViewModel extends BaseObservable {
     }
 
     public void onItemClick(View view) {
-        Intent intent = new Intent(context,FollowsActivity.class);
+        Intent intent = new Intent(context,FollowersActivity.class);
         intent.putExtra("user",user.getLogin());
         context.startActivity(intent);
     }

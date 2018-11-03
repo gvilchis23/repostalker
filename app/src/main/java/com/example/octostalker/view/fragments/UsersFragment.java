@@ -1,4 +1,4 @@
-package com.ricardocenteno.octostalker.view.ui;
+package com.example.octostalker.view.fragments;
 import android.app.SearchManager;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -14,20 +14,19 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.ricardocenteno.octostalker.R;
-import com.ricardocenteno.octostalker.model.User;
-import com.ricardocenteno.octostalker.view.adapter.UserRVAdapter;
-import com.ricardocenteno.octostalker.viewmodel.UsersViewModel;
+import com.example.octostalker.R;
+import com.example.octostalker.model.User;
+import com.example.octostalker.view.adapter.UserAdapter;
+import com.example.octostalker.viewmodel.UsersViewModel;
 import java.util.Observable;
 import java.util.Observer;
-import com.ricardocenteno.octostalker.databinding.UsersFragmentBinding;
+import com.example.octostalker.databinding.UsersFragmentBinding;
 
 public class UsersFragment extends Fragment implements Observer {
     public static final String TAG = "UsersFragment";
     private static final String ARG_PARAM_USER = "paramUser";
     private UsersViewModel mViewModel;
-    private RecyclerView rvUsers;
-    private UserRVAdapter adapter;
+    private UserAdapter adapter;
     private UsersFragmentBinding usersFragmentBinding;
     private SearchView searchView;
     private User userSelected;
@@ -53,7 +52,6 @@ public class UsersFragment extends Fragment implements Observer {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.users_fragment, container, false);
-        rvUsers = view.findViewById(R.id.rv_users);
         return view;
     }
 
@@ -61,7 +59,7 @@ public class UsersFragment extends Fragment implements Observer {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initDataBinding();
-        setupListPeopleView(usersFragmentBinding.rvUsers);
+        setupListPeopleView(usersFragmentBinding.userRecycler);
         setupObserver(mViewModel);
     }
 
@@ -96,13 +94,13 @@ public class UsersFragment extends Fragment implements Observer {
     private void initDataBinding() {
         usersFragmentBinding = DataBindingUtil.setContentView(getActivity(), R.layout.users_fragment);
         mViewModel = new UsersViewModel(getContext(),userSelected);
-        usersFragmentBinding.setMainViewModel(mViewModel);
+        usersFragmentBinding.setUserViewModel(mViewModel);
     }
 
-    private void setupListPeopleView(RecyclerView rvUsers) {
-        UserRVAdapter adapter = new UserRVAdapter();
-        rvUsers.setAdapter(adapter);
-        rvUsers.setLayoutManager(new LinearLayoutManager(getContext()));
+    private void setupListPeopleView(RecyclerView usersRecycler) {
+        UserAdapter adapter = new UserAdapter();
+        usersRecycler.setAdapter(adapter);
+        usersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     public void setupObserver(Observable observable) {
@@ -119,9 +117,9 @@ public class UsersFragment extends Fragment implements Observer {
     @Override
     public void update(Observable observable, Object arg) {
         if (observable instanceof UsersViewModel) {
-            adapter = (UserRVAdapter) usersFragmentBinding.rvUsers.getAdapter();
+            adapter = (UserAdapter) usersFragmentBinding.userRecycler.getAdapter();
             mViewModel = (UsersViewModel) observable;
-            adapter.setUsers(mViewModel.getPeopleList());
+            adapter.setUsers(mViewModel.getUsers());
         }
     }
 }

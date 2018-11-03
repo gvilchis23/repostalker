@@ -1,4 +1,4 @@
-package com.ricardocenteno.octostalker.viewmodel;
+package com.example.octostalker.viewmodel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -7,11 +7,10 @@ import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.support.annotation.NonNull;
 import android.view.View;
-import com.ricardocenteno.octostalker.OctoStalkerApplication;
-import com.ricardocenteno.octostalker.R;
-import com.ricardocenteno.octostalker.data.FakeRandomCompany;
-import com.ricardocenteno.octostalker.data.UserService;
-import com.ricardocenteno.octostalker.model.User;
+import com.example.octostalker.OctoStalkerApplication;
+import com.example.octostalker.R;
+import com.example.octostalker.data.UserService;
+import com.example.octostalker.model.User;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -25,16 +24,16 @@ public class UsersViewModel extends Observable {
     public ObservableField<String> messageLabel;
     public ObservableField<String> userName;
 
+
     private List<User> users;
     private Context context;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private User user;
+    private CompositeDisposable compositeDisposable;
 
     public UsersViewModel(@NonNull Context context, User user) {
 
         this.context = context;
         this.users = new ArrayList<>();
-        this.user = user;
+        compositeDisposable = new CompositeDisposable();
         userLabel = user!=null ? new ObservableInt(View.VISIBLE):new ObservableInt(View.GONE);
         peopleProgress = new ObservableInt(View.GONE);
         peopleRecycler = new ObservableInt(View.GONE);
@@ -62,23 +61,17 @@ public class UsersViewModel extends Observable {
             UserService peopleService = peopleApplication.getPeopleService();
 
 
-            Disposable disposable = peopleService.fetchUsers("bypasslane")
+            Disposable disposable = peopleService.getOrganizationMember("bypasslane")
                     .subscribeOn(peopleApplication.subscribeScheduler())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(users -> {
                         changePeopleDataSet(users);
-                        peopleProgress.set(View.GONE);
-                        peopleLabel.set(View.GONE);
-                        peopleRecycler.set(View.VISIBLE);
+                        setSuccessView();
                     }, throwable -> {
-                        messageLabel.set(context.getString(R.string.error_loading_users));
-                        peopleProgress.set(View.GONE);
-                        peopleLabel.set(View.VISIBLE);
-                        peopleRecycler.set(View.GONE);
+                        setErrorView(throwable.getMessage() + " " +context.getString(R.string.error_loading_users));
                     });
 
             compositeDisposable.add(disposable);
-            //changePeopleDataSet(FakeRandomCompany.getUserList());
         }
     }
 
@@ -90,17 +83,26 @@ public class UsersViewModel extends Observable {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(users -> {
                     changePeopleDataSet(users);
-                    peopleProgress.set(View.GONE);
-                    peopleLabel.set(View.GONE);
-                    peopleRecycler.set(View.VISIBLE);
+                    setSuccessView();
                 }, throwable -> {
-                    messageLabel.set(context.getString(R.string.error_loading_users));
-                    peopleProgress.set(View.GONE);
-                    peopleLabel.set(View.VISIBLE);
-                    peopleRecycler.set(View.GONE);
+                    setErrorView(throwable.getMessage() + " " + context.getString(R.string.error_loading_users));
                 });
 
         compositeDisposable.add(disposable);
+    }
+
+    private void setErrorView(String error){
+        messageLabel.set(error);
+        userLabel.set(View.GONE);
+        peopleProgress.set(View.GONE);
+        peopleLabel.set(View.VISIBLE);
+        peopleRecycler.set(View.GONE);
+    }
+
+    private void setSuccessView(){
+        peopleProgress.set(View.GONE);
+        peopleLabel.set(View.GONE);
+        peopleRecycler.set(View.VISIBLE);
     }
 
     private void changePeopleDataSet(List<User> peoples) {
@@ -109,7 +111,7 @@ public class UsersViewModel extends Observable {
         notifyObservers();
     }
 
-    public List<User> getPeopleList() {
+    public List<User> getUsers() {
         return users;
     }
 

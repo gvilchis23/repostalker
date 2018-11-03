@@ -1,15 +1,15 @@
-package com.ricardocenteno.octostalker.data;
+package com.example.octostalker.data;
 
 import android.util.Log;
 
-import com.ricardocenteno.octostalker.model.User;
+import com.example.octostalker.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class FakeRandomCompany {
-    private static final String USER_NAME_TEST = "rickstart";
+public class MockCompany {
+    private static final String USER_NAME_TEST = "facebook";
     private static final String USER_AVATAR_TEST = "https://avatars1.githubusercontent.com/u/74135";
 
     public static List<User> getUserList() {

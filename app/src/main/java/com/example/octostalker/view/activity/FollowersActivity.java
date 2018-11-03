@@ -1,17 +1,15 @@
-package com.ricardocenteno.octostalker.view.ui;
+package com.example.octostalker.view.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toolbar;
 
-import com.ricardocenteno.octostalker.R;
-import com.ricardocenteno.octostalker.model.User;
+import com.example.octostalker.R;
+import com.example.octostalker.model.User;
+import com.example.octostalker.view.fragments.UsersFragment;
 
 
-public class FollowsActivity extends AppCompatActivity {
+public class FollowersActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +32,8 @@ public class FollowsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // handle arrow click here
         if (item.getItemId() == android.R.id.home) {
-            finish(); // close this activity and return to preview activity (if there is any)
+            finish();
         }
 
         return super.onOptionsItemSelected(item);

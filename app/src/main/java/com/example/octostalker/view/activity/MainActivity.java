@@ -1,8 +1,9 @@
-package com.ricardocenteno.octostalker.view.ui;
+package com.example.octostalker.view.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import com.ricardocenteno.octostalker.R;
+import com.example.octostalker.R;
+import com.example.octostalker.view.fragments.UsersFragment;
 
 public class MainActivity extends AppCompatActivity {
 

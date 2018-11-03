@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="userViewModel"
-            type="com.ricardocenteno.octostalker.viewmodel.ItemUserViewModel"/>
+            class="UserItemViewModel"
+            name="UserItemViewModel"
+            type="com.example.octostalker.viewmodel.UserItemViewModel"/>
     </data>
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_item_user"
-        android:onClick="@{userViewModel::onItemClick}">
+        android:onClick="@{UserItemViewModel::onItemClick}">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,7 +23,7 @@
                 android:id="@+id/img_profile"
                 android:layout_width="@dimen/image_avatar"
                 android:layout_height="@dimen/image_avatar"
-                tools:imageURL="@{userViewModel.imgProfile}"/>
+                tools:imageURL="@{UserItemViewModel.imgProfile}"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -31,7 +32,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/img_profile"
                 android:layout_toEndOf="@+id/img_profile"
-                android:text="@{userViewModel.name}"
+                android:text="@{UserItemViewModel.name}"
                 android:id="@+id/txt_username"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -41,8 +42,8 @@
                 android:layout_alignParentEnd="true"
                 android:textColor="@color/white"
                 android:background="@drawable/badge"
-                android:text="@{userViewModel.followers}"
-                app:visibility="@{userViewModel.followersBadge}"
+                android:text="@{UserItemViewModel.followers}"
+                app:visibility="@{UserItemViewModel.followersBadge}"
                 android:id="@+id/txt_followers"/>
         </RelativeLayout>
     </android.support.v7.widget.CardView>

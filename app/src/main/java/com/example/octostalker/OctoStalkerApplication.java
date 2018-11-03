@@ -1,9 +1,9 @@
-package com.ricardocenteno.octostalker;
+package com.example.octostalker;
 
 import android.app.Application;
 import android.content.Context;
-import com.ricardocenteno.octostalker.data.UserFactory;
-import com.ricardocenteno.octostalker.data.UserService;
+import com.example.octostalker.data.UserFactory;
+import com.example.octostalker.data.UserService;
 import io.reactivex.Scheduler;
 import io.reactivex.schedulers.Schedulers;
 

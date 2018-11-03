@@ -1,8 +1,8 @@
-package com.ricardocenteno.octostalker;
+package com.example.octostalker;
 
 import android.test.mock.MockContext;
-import com.ricardocenteno.octostalker.model.User;
-import com.ricardocenteno.octostalker.viewmodel.ItemUserViewModel;
+import com.example.octostalker.model.User;
+import com.example.octostalker.viewmodel.ItemUserViewModel;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -10,10 +10,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ItemUserViewModelTest {
+public class UserItemViewModelTest {
 
-    private static final String USER_NAME_TEST = "rickstart";
-    private static final Integer USER_FOLLOWERS_TEST = 199;
+    private static final String USER_NAME_TEST = "bypass";
+    private static final Integer USER_FOLLOWERS_TEST = 100;
     private static final String USER_AVATAR_TEST = "https://avatars1.githubusercontent.com/u/7413593?v=4";
 
     @Mock
