@@ -36,11 +36,4 @@ public class OctoStalkerApplication extends Application {
         return scheduler;
     }
 
-    public void setPeopleService(UserService peopleService) {
-        this.peopleService = peopleService;
-    }
-
-    public void setScheduler(Scheduler scheduler) {
-        this.scheduler = scheduler;
-    }
 }

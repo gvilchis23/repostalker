@@ -10,6 +10,7 @@ import com.example.octostalker.view.fragments.UsersFragment;
 
 
 public class FollowersActivity extends AppCompatActivity {
+    public static final String USER_EXTRA = "user";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +22,7 @@ public class FollowersActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        user.setLogin(getIntent().getStringExtra("user"));
+        user.setLogin(getIntent().getStringExtra(USER_EXTRA));
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()

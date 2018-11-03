@@ -24,7 +24,7 @@ import com.example.octostalker.databinding.UsersFragmentBinding;
 
 public class UsersFragment extends Fragment implements Observer {
     public static final String TAG = "UsersFragment";
-    private static final String ARG_PARAM_USER = "paramUser";
+    private static final String ARG_PARAM_USER = "userParameter";
     private UsersViewModel mViewModel;
     private UserAdapter adapter;
     private UsersFragmentBinding usersFragmentBinding;
@@ -34,7 +34,7 @@ public class UsersFragment extends Fragment implements Observer {
 
     public static UsersFragment newInstance(User user) {
         Bundle args = new Bundle();
-        args.putSerializable(ARG_PARAM_USER,user);
+        args.putSerializable(ARG_PARAM_USER, user);
         UsersFragment fragment = new UsersFragment();
         fragment.setArguments(args);
         return fragment;
@@ -44,7 +44,7 @@ public class UsersFragment extends Fragment implements Observer {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        if (getArguments()!=null)
+        if (getArguments() != null)
             this.userSelected = (User) getArguments().getSerializable(ARG_PARAM_USER);
     }
 
