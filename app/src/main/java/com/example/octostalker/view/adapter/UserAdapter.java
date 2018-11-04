@@ -16,19 +16,15 @@ import android.widget.Filter;
 import android.widget.Filterable;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> implements Filterable {
-    private List<User> objects;
-    private List<User> objectsFiltered;
-    private List<User> objectKeep;
+    private List<User> dataList;
+    private List<User> filterData;
+    private List<User> keep;
 
     public UserAdapter() {
-        this.objects = Collections.emptyList();
-        this.objectsFiltered = objects;
+        this.dataList = Collections.emptyList();
+        this.filterData = dataList;
     }
 
-    public void setUsers(List<User> users) {
-        this.objects = users;
-        notifyDataSetChanged();
-    }
 
     @NonNull
     @Override
@@ -39,13 +35,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> im
 
     @Override
     public void onBindViewHolder(@NonNull UserAdapter.ViewHolder holder, int position) {
-        holder.bindUser(objects.get(position));
+        holder.bindUser(dataList.get(position));
         holder.binding.executePendingBindings();
-    }
-
-    @Override
-    public int getItemCount() {
-        return objects.size();
     }
 
     @Override
@@ -54,21 +45,21 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> im
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String charString = charSequence.toString();
-                if (objectKeep == null)
-                    objectKeep = objects;
+                if (keep == null)
+                    keep = dataList;
                 if (!charString.isEmpty()) {
                     List<User> filteredList = new ArrayList<>();
-                    for (User row : objectKeep) {
+                    for (User row : keep) {
                         if (row.getLogin().toLowerCase().contains(charString.toLowerCase()) || row.getLogin().contains(charSequence)) {
                             filteredList.add(row);
                         }
                     }
-                    objectsFiltered = filteredList;
+                    filterData = filteredList;
                 }
 
                 FilterResults filterResults = new FilterResults();
-                filterResults.values = objectsFiltered;
-                filterResults.count = objectsFiltered.size();
+                filterResults.values = filterData;
+                filterResults.count = filterData.size();
                 return filterResults;
             }
 
@@ -76,14 +67,25 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> im
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 String charString = charSequence.toString();
                 if (charString.isEmpty()){
-                    setUsers(objectKeep);
-                    objectKeep = null;
+                    setUsers(keep);
+                    keep = null;
                 }else {
-                    objectsFiltered = (ArrayList<User>) filterResults.values;
-                    setUsers(objectsFiltered);
+                    filterData = (ArrayList<User>) filterResults.values;
+                    setUsers(filterData);
                 }
             }
         };
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return dataList.size();
+    }
+
+    public void setUsers(List<User> users) {
+        this.dataList = users;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
